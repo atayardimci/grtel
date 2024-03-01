@@ -1,5 +1,7 @@
+import numpy as np
 import pandas as pd
 from beartype import beartype
+import yfinance as yf
 
 
 @beartype
@@ -75,3 +77,32 @@ def get_obv(stock_data: pd.DataFrame) -> pd.Series:
     obv_values[change_in_price_series < 0] = -volume_series[change_in_price_series < 0]
 
     return obv_values.cumsum()
+
+
+@beartype
+def get_indicators(ticker: str) -> pd.DataFrame:
+    """Get the stock data and the indicators."""
+    stock_data: pd.DataFrame = yf.download(ticker, start='2016-01-02', end='2019-01-01')
+    stock_data['change_in_price'] = stock_data['Close'].diff()
+
+    # indicators
+    stock_data['RSI'] = get_rsi(stock_data)
+    stock_data['k_percent'] = get_stochastic_oscillator(stock_data)
+    stock_data['r_percent'] = get_williams(stock_data)
+
+    macd, ema_9_macd = get_macd(stock_data)
+    stock_data['MACD'] = macd
+    stock_data['MACD_EMA9'] = ema_9_macd
+
+    stock_data['Price Rate Of Change'] = stock_data['Close'].pct_change(periods=9)
+    stock_data['On Balance Volume'] = get_obv(stock_data)
+
+    # Create the predicition column
+    # (To keep this as a binary classifier consider flat days as up days)
+    days_out = 9
+    stock_data['Prediction'] = np.sign(
+        np.sign(stock_data['Close'].shift(-days_out) - stock_data['Close']) + 1.
+    )
+
+    stock_data_and_indicators = stock_data.dropna()
+    return stock_data_and_indicators
