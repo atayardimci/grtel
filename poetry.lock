@@ -633,6 +633,28 @@ files = [
 ]
 
 [[package]]
+name = "hottbox"
+version = "0.3.2"
+description = "Higher Order Tensors ToolBOX"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "hottbox-0.3.2-py3-none-any.whl", hash = "sha256:d49df739b44d0952c6dd8ca7513c4c4dfae96575078dfe77c7a9e4dedf45a983"},
+    {file = "hottbox-0.3.2.tar.gz", hash = "sha256:e763121027269b2f99347e3e144da4f486357595f6b25b55423d039c474f9d2f"},
+]
+
+[package.dependencies]
+numpy = "*"
+pandas = "*"
+scikit-learn = "*"
+scipy = "*"
+
+[package.extras]
+all = ["guzzle-sphinx-theme (==0.7.11)", "m2r (>=0.2.1)", "numpydoc (==0.9.1)", "pytest (>=5.0.0)", "pytest-cov (>=2.7.1)", "sphinx (>=2.1.2)"]
+docs = ["guzzle-sphinx-theme (==0.7.11)", "m2r (>=0.2.1)", "numpydoc (==0.9.1)", "sphinx (>=2.1.2)"]
+tests = ["pytest (>=5.0.0)", "pytest-cov (>=2.7.1)"]
+
+[[package]]
 name = "html5lib"
 version = "1.1"
 description = "HTML parser based on the WHATWG HTML specification"
@@ -2076,4 +2098,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8.12"
-content-hash = "7e1a4773cd5a3d03dfab9c2a3b2de62eb1acb67cd61b754fbbac5d57210b6993"
+content-hash = "01ab0acee806a99002f67b42ec3ad659207d1b56d8d3c32cee672e6a04c17763"
