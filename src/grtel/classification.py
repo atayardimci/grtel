@@ -43,7 +43,12 @@ class GRTEL:
         return [self.models[i].score(X, y[:, i]) for i in range(self.n_classes)]
 
     @beartype
-    def grid_search(self, X: list[TensorTKD], y: np.ndarray, search_params) -> None:
+    def grid_search(
+        self,
+        X: list[TensorTKD],
+        y: np.ndarray,
+        search_params: list[dict],
+    ) -> None:
         for i in range(self.n_classes):
             print(i, end=" - ")
             self.models[i].grid_search(X, y[:, i], search_params)
