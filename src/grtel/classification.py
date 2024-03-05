@@ -13,13 +13,13 @@ class GRTEL:
     """Graph Regularized Tensor Ensemblef Learning"""
     @beartype
     def __init__(self,
-        base_clfs,  # TODO: typing
-        probability: bool = False,
+        base_classifiers,
         n_classes: int = 1,
+        probability: bool = False,
         verbose: bool = False,
     ):
-        self.probability = probability
         self.n_classes = n_classes
+        self.probability = probability
         self.verbose = verbose
         self.models = [
             TelVI(
@@ -27,7 +27,7 @@ class GRTEL:
                 probability=self.probability,
                 verbose=self.verbose
             )
-            for base_clf in base_clfs
+            for base_clf in base_classifiers
         ]
 
     @beartype
