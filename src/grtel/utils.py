@@ -1,6 +1,7 @@
 import numpy as np
 
 from beartype import beartype
+import pandas as pd
 
 
 @beartype
@@ -66,3 +67,30 @@ def confusion_matrix_metrics(conf_matrix: np.ndarray) -> tuple[float, float, flo
     downturn_precision = true_negatives / (true_negatives + false_negatives)
 
     return accuracy, precision, recall, specificity, downturn_precision
+
+
+@beartype
+def get_prediction_spans(predictions: pd.Series) -> list[dict]:
+    """Get the spans of the predictions."""
+    prediction_span = {
+        "start": predictions.index[0],
+        "end": None,
+        "prediction": predictions[0]
+    }
+    prediction_spans = [prediction_span]
+    for t in predictions.index[1:]:
+        prediction = predictions[t]
+        if prediction_spans[-1]["prediction"] == prediction:
+            continue
+        else:
+            prediction_spans[-1]["end"] = t
+            prediction_span = {
+                "start": t,
+                "end": None,
+                "prediction": predictions[t]
+            }
+            prediction_spans.append(prediction_span)
+
+    prediction_spans[-1]["end"] = predictions.index[-1]
+
+    return prediction_spans
